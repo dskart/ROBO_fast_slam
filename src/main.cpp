@@ -4,17 +4,21 @@
 #include <math.h>      
 #include <array>
 #include <random>
+#include <fstream>
+#include <iterator>
 
 #include <Eigen/Dense>
 #include "particle.hpp"
 #include "functions.hpp"
 #include "constants.hpp"
 #include "fastslam.hpp"
+#include "matplotlibcpp.hpp"
 
 
 using namespace Eigen;
+namespace plt = matplotlibcpp;
 
-
+bool show_animation = true;
 int main()
 {
   float time = 0.0;
@@ -39,9 +43,13 @@ int main()
   MatrixXd x_dr(STATE_SIZE,1);   // Dead reckoning
 
   // history
-  MatrixXd hx_est = x_est; 
-  MatrixXd hx_true = x_true;
-  MatrixXd hx_dr = x_dr;
+  std::vector<MatrixXd> hx_est;
+  std::vector<MatrixXd> hx_true;
+  std::vector<MatrixXd> hx_dr;
+  std::vector<std::array<Particle*, N_PARTICLE>> h_particles;
+
+  std::ofstream output_file0("./h_particles.txt");
+  std::ofstream output_file01("./h_lm.txt");
 
   FastSlam fs(N_LM);
   while(SIM_TIME >= time)
@@ -49,7 +57,7 @@ int main()
     time += DT;
 
     // u -> [v, yawrate]
-    // x_true/x_dr/x_est -> [x,y,yaw,v]
+    // x_true/x_dr/x_est -> [x,y,yaw]
     
     MatrixXd u = CalcInput(time); 
 
@@ -63,8 +71,41 @@ int main()
 
     x_est = fs.CalcFinalState();
 
-    std::cout << x_est <<std::endl; 
+    hx_est.push_back(x_est);
+    hx_true.push_back(x_true);
+    hx_dr.push_back(x_dr);
+
+    std::cout<< x_est << std::endl;
     std::cout<< '\n' << std::endl;
+    for(Particle* &p : fs.particles_)
+    {
+      output_file0 << p->x_ << " " <<p->y_ << " ";
+      for(int i = 0; i < p->lm_.rows(); ++i)
+      {
+        output_file01 << p->lm_(i,0) << " " << p->lm_(i,1) << " ";
+      }
+    }
+    output_file0 << "\n";
+    output_file01 << "\n";
   }
+
+  std::ofstream output_file1("./hx_est.txt");
+  for(MatrixXd m : hx_est)
+  {
+    output_file1 << m(0) << " " << m(1)  << " " << m(2) << "\n";
+  }
+
+  std::ofstream output_file2("./hx_true.txt");
+  for(MatrixXd m : hx_true)
+  {
+    output_file2 << m(0) << " " << m(1)  << " " << m(2) << "\n";
+  }
+
+  std::ofstream output_file3("./hx_dr.txt");
+  for(MatrixXd m : hx_dr)
+  {
+    output_file3 << m(0) << " " << m(1)  << " " << m(2) << "\n";
+  }
+
 }
 
