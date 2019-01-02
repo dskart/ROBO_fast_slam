@@ -14,16 +14,15 @@ DEPS := $(OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(INC) -type d) 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-PYTHON_FLAG = -I/usr/include/python2.7 -lpython2.7
 CC = g++-7
 CXX = g++-7
 DEBUG = -g
 C_INC_FLAGS ?= $(INC_FLAGS) -MMD -MP
-CFLAGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable $(PYTHON_FLAG) -std=c++11 $(DEBUG)
-CXXFLAGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable $(PYTHON_FLAG) -std=c++11 $(DEBUG)
+CFLAGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable -std=c++11 $(DEBUG)
+CXXFLAGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable -std=c++11 $(DEBUG)
 
 $(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) $(PYTHON_FLAG) -o $@ $(LDFLAGS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
 # c source
 $(BUILD_DIR)/%.c.o: %.c

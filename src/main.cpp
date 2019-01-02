@@ -12,28 +12,28 @@
 #include "functions.hpp"
 #include "constants.hpp"
 #include "fastslam.hpp"
-#include "matplotlibcpp.hpp"
-
 
 using namespace Eigen;
-namespace plt = matplotlibcpp;
 
-bool show_animation = true;
 int main()
 {
   float time = 0.0;
 
-  // SET OF LANDMARKS
-  // should work with any size but like I wouldn't fuck around too much 
-  MatrixXd RFID(8,2);
-  RFID << 10.0,  -2.0,
-          15.0,  10.0,
-          15.0,  15.0,
-          10.0,  20.0,
-          3.0,   15.0,
-          -5.0,  20.0,
-          -5.0,  5.0,
-          -10.0, 15.0;
+  MatrixXd RFID(14,2);
+  RFID << 1.2000,    1.0000,
+            1.0812,    1.5207,
+            0.7482,    1.9382,
+            0.2670,    2.1699,
+           -0.2670,    2.1699,
+           -0.7482,    1.9382,
+           -1.0812,    1.5207,
+           -1.2000,    1.0000,
+           -1.0812,    0.4793,
+           -0.7482,    0.0618,
+           -0.2670,   -0.1699,
+            0.2670,   -0.1699,
+            0.7482,    0.0618,
+            1.0812,    0.4793;
 
   int N_LM = RFID.rows();
 
@@ -58,7 +58,6 @@ int main()
 
     // u -> [v, yawrate]
     // x_true/x_dr/x_est -> [x,y,yaw]
-    
     MatrixXd u = CalcInput(time); 
 
     std::array<MatrixXd,2> z_ud = Observation(x_true, x_dr, u, RFID);
@@ -74,38 +73,5 @@ int main()
     hx_est.push_back(x_est);
     hx_true.push_back(x_true);
     hx_dr.push_back(x_dr);
-
-    std::cout<< x_est << std::endl;
-    std::cout<< '\n' << std::endl;
-    for(Particle* &p : fs.particles_)
-    {
-      output_file0 << p->x_ << " " <<p->y_ << " ";
-      for(int i = 0; i < p->lm_.rows(); ++i)
-      {
-        output_file01 << p->lm_(i,0) << " " << p->lm_(i,1) << " ";
-      }
-    }
-    output_file0 << "\n";
-    output_file01 << "\n";
-  }
-
-  std::ofstream output_file1("./hx_est.txt");
-  for(MatrixXd m : hx_est)
-  {
-    output_file1 << m(0) << " " << m(1)  << " " << m(2) << "\n";
-  }
-
-  std::ofstream output_file2("./hx_true.txt");
-  for(MatrixXd m : hx_true)
-  {
-    output_file2 << m(0) << " " << m(1)  << " " << m(2) << "\n";
-  }
-
-  std::ofstream output_file3("./hx_dr.txt");
-  for(MatrixXd m : hx_dr)
-  {
-    output_file3 << m(0) << " " << m(1)  << " " << m(2) << "\n";
-  }
-
 }
 

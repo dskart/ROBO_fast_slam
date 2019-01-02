@@ -12,7 +12,7 @@ MatrixXd CalcInput(const float &time)
   }
   else
   {
-    v = 1.0;       // m/s
+    v = 0.5;       // m/s
     yawrate = 0.1; // rad/s
   }
 
@@ -90,8 +90,13 @@ MatrixXd MotionModel(const MatrixXd &x, const MatrixXd &u)
   B << DT * cos(x(2, 0)), 0,
        DT * sin(x(2, 0)), 0,
        0.0              , DT;
+  MatrixXd v(2,1);
+  v << u(0), u(0);
 
-  MatrixXd x_new =  F * x + B * u;
+  MatrixXd mm(3,1);
+  mm << 2, 2, 2;
+
+  MatrixXd x_new =  F * x + B * v ;
 
   x_new(2,0) =  Pi2Pi(x_new(2,0));
 
