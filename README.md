@@ -1,11 +1,14 @@
 # C++ Fast SLAM
+proof of concept    | skidpad test
+:-------------------------:|:-------------------------:
+![example1](https://github.com/dskart/ROBO_fast_slam/blob/master/gifs/example.gif)|  ![example2](https://github.com/dskart/ROBO_fast_slam/blob/master/gifs/example2.gif)
 
 Here is a light weight [Fast SLAM](http://robots.stanford.edu/papers/montemerlo.fastslam-tr.pdf) implementation using C++. This project was made during a final project for the ROBO class at the University of Pennsylvania and used as a prove of concept for the autonomous division of Formula FSAE at Upenn 
 
 ## Getting Started
 
 This project was mainly done for a class and will not be maintained. Feel free to uses bits of it (or all of it) for your own projects but I will not be fixing any issues (it was running fine last time I tested it)
-This code has only been tested on Linux but should work out of the box on Mac OS X. If you are using windows you will need to compile this using your own environmnet. (sorry :( )
+This code has only been tested on Linux but should work out of the box on Mac OS X. If you are using windows you will need to compile this using your own environmnet. sorry :(
 
 ### Prerequisites
 
