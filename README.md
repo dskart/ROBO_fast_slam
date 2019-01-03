@@ -3,7 +3,7 @@ proof of concept    | skidpad test
 :-------------------------:|:-------------------------:
 ![example1](https://github.com/dskart/ROBO_fast_slam/blob/master/gifs/example.gif)|  ![example2](https://github.com/dskart/ROBO_fast_slam/blob/master/gifs/example2.gif)
 
-Here is a light weight [Fast SLAM](http://robots.stanford.edu/papers/montemerlo.fastslam-tr.pdf) implementation using C++. This project was made during a final project for the ROBO class at the University of Pennsylvania and used as a prove of concept for the autonomous division of Formula FSAE at Upenn 
+Here is a light weight [Fast SLAM](http://robots.stanford.edu/papers/montemerlo.fastslam-tr.pdf) implementation using C++. This project was made during a final project for the ROBO class at the University of Pennsylvania and used as a prove of concept for the autonomous division of [Formula SAE](http://www.pennelectricracing.com/) at Upenn 
 
 ## Getting Started
 
